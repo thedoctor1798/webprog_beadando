@@ -15,28 +15,61 @@ let cats = [
     new Cat("Abeszin", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica"),
     new Cat("Abeszin", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica")
 ]
-fetch("https://cataas.com/cat").then(response => {
-  response.blob().then(blobResponse => {
-    data = blobResponse;
-    const urlCreator = window.URL || window.webkitURL;
-    document.getElementById('myImage').src = urlCreator.createObjectURL(data);
-  })
 
-});
-
-fetch("https://cataas.com/cat").then(response => {
-  response.blob().then(blobResponse => {
-    data = blobResponse;
-    const urlCreator = window.URL || window.webkitURL;
-    document.getElementById('myImage2').src = urlCreator.createObjectURL(data);
-  })
-
-});
 
 console.log(cats)
 displayCats(cats)
 function displayCats(catsArray){
-    
+    for(let cat of catsArray){
+
+        let catsDiv = document.getElementById("cats")
+
+        let catDiv = document.createElement("div");
+        let imageContDiv = document.createElement("div");
+        let infoContDiv = document.createElement("div");
+        let catImg = document.createElement("img");
+        let btnContDiv = document.createElement("div");
+        let btn = document.createElement("button");
+        let btnText = document.createTextNode("Adoptálás")
+
+        setPicture(catImg)
+        imageContDiv.appendChild(catImg)
+
+        catDiv.setAttribute("class", "cat")
+        imageContDiv.setAttribute("class", "imageContainer")
+        infoContDiv.setAttribute("class", "infoContainer")
+        btnContDiv.setAttribute("class", "buttonContainer")
+
+        btn.appendChild(btnText)
+        btnContDiv.appendChild(btn)
+
+        btn.addEventListener("click", function(){
+            alert("Click")
+        })  
+
+        catDiv.appendChild(imageContDiv)
+        catDiv.appendChild(infoContDiv)
+        catDiv.appendChild(btnContDiv)
+
+        for(let c in cat){
+            
+            let titleText = document.createTextNode(getTitleByIndex(c))
+            let infoText = document.createTextNode(cat[c])
+
+            let h3element = document.createElement("h3")
+            let pElement = document.createElement("p")
+
+            h3element.appendChild(titleText)
+            pElement.appendChild(infoText)
+
+            infoContDiv.appendChild(h3element)
+            infoContDiv.appendChild(pElement)
+        }
+
+
+
+        catsDiv.appendChild(catDiv)
+    }
 }
 
 function getTitleByIndex(index){
@@ -49,4 +82,14 @@ function getTitleByIndex(index){
         case "info": return "Leírás";
         default: return "Egyéb";
     }
+}
+
+function setPicture(imgElement){
+        fetch("https://cataas.com/cat").then(response => {
+        response.blob().then(blobResponse => {
+            data = blobResponse;
+            const urlCreator = window.URL || window.webkitURL;
+            imgElement.src = urlCreator.createObjectURL(data);
+        })
+    });
 }

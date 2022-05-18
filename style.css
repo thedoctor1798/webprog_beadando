@@ -4,27 +4,30 @@ html, body{
     margin: 0;
 }
 #cats{
-    width: 100%;
+    width: auto;
 
     padding: 20px;
     box-sizing: border-box;
+    
+    margin: auto;
 }
 .cat{
     display: inline-block;
     width: 300px;
-    height: 500px;
+    height: 600px;
     
     border: 1px solid grey;
     border-radius: 5px;
     margin: 20px;
 
     box-shadow: 0px 0px 8px;
+    
 }
 
 .imageContainer{
     box-sizing: border-box;
     width: 300px;
-    height: 300px;
+    height: 250px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,10 +46,27 @@ img{
     display: inline-block;
     width: 49%;
     box-sizing: border-box;
-    margin: 10px 0;
+    margin: 5px 0;
 } 
 .infoContainer h3{
     font-weight: bold;
     color: darkblue;
 }
 
+.buttonContainer{
+    width: 100%;
+}
+.buttonContainer button{
+    margin: auto;
+    display: block;
+    padding: 8px;
+    border: 1px solid white ;
+    border-radius: 10px;
+    background-color: royalblue;
+    color: white;
+}
+.buttonContainer button:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+    box-shadow: 0px 0px 8px;
+}   
