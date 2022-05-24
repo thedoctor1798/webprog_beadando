@@ -4,12 +4,16 @@ html, body{
     margin: 0;
 }
 #cats{
-    width: auto;
+    width: 100%;
 
-    padding: 20px;
+    padding: 50px; /*Lajosnak nem tetszett a távolság*/
     box-sizing: border-box;
     
     margin: auto;
+
+    display: flex; /*Itt volt a csavar*/
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 .cat{
     display: inline-block;
@@ -70,3 +74,30 @@ img{
     transform: scale(1.05);
     box-shadow: 0px 0px 8px;
 }   
+#addNewContainer{
+    display: flex;
+    width: 60px;
+    height: 60px;
+    padding: 10px;
+    border: 1px solid gray;
+    background-color: white;
+    border-radius: 40px;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+
+    justify-content: center;
+    align-items: center;
+
+    box-shadow: 0 0 8px;
+    cursor: pointer;
+}
+#addNewContainer:hover{
+    transform: scale(1.05);
+}
+#addNewButton{
+    width: 75%;
+    height: 75%
+}
