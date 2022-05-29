@@ -4,14 +4,56 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="module" src="script.js"></script>
+    
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>
-    <main>
-        <div id="cats">
-            <!--<div class="cat">
+    <main id="main">
+        <div id="popupBackground">
+            <div class="popup">
+                <div id="closePopup">
+                    <img src="./assets/plus.png">
+                </div>
+                <form id="addNewForm" onsubmit="return false">
+                    <div class="formContainer">
+                        <label for="type">Fajta</label>
+                        <input id="type" type="text">
+                    </div>
+                    <div class="formContainer">
+                        <label for="name">Név</label>
+                        <input id="name" type="text">
+                    </div>
+                    <div class="formContainer">
+                        <label for="color">Szín</label>
+                        <input id="color" type="text">
+                    </div>
+                    <div class="formContainer">
+                        <label for="age">Kor</label>
+                        <input id="age" type="number">
+                    </div>
+                    <div class="formContainer">
+                        <label for="gender">Nem</label>
+                        <select>
+                            <option selected disabled></option>
+                            <option>Kandúr</option>
+                            <option>Nőstény</option>
+                        </select>
+                    </div>
+                    <div class="formContainer">
+                        <label for="info">Leírás</label>
+                        <textarea id="info"></textarea>
+                    </div>
+                    <div class="buttonContainer">
+                        <button onclick="addNew()">Add</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+        
+        <!--<div id="cats">
+            <div class="cat">
                 <div class="imageContainer">
                     <img id="myImage">
                 </div>
@@ -36,15 +78,16 @@
                     <h3>Kor</h3>
                     <p>5</p>
                 </div>
-            </div>-->
+            </div>
             
-        </div>
+        </div>-->
     </main>
-    <aside>
+    <!--<aside>
         <div id="addNewContainer">
             <img id="addNewButton" src="./assets/plus.png" alt="plus icon">
         </div>
-    </aside>
+    </aside>-->
 
 </body>
+<script src="script.js"></script>
 </html>

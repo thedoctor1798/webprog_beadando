@@ -17,7 +17,7 @@ let cats = [
 ]
 
 
-console.log(cats)
+switchToMain()
 displayCats(cats)
 function displayCats(catsArray){
     for(let cat of catsArray){
@@ -70,6 +70,8 @@ function displayCats(catsArray){
 
         catsDiv.appendChild(catDiv)
     }
+
+    displayPlusButton()
 }
 
 function getTitleByIndex(index){
@@ -79,9 +81,27 @@ function getTitleByIndex(index){
         case "color": return "Szín: ";
         case "age": return "Kor: ";
         case "gender": return "Nem: ";
-        case "info": return "Leírás";
-        default: return "Egyéb";
+        case "info": return "Leírás:";
+        default: return "Egyéb:";
     }
+}
+
+function displayPlusButton(){
+    let position = document.getElementsByTagName("body")[0]
+    let aside = document.createElement("aside")
+    let btnDiv = document.createElement("div")
+    let btnImg = document.createElement("img")
+
+    btnDiv.setAttribute("id", "addNewContainer")
+    btnImg.setAttribute("id", "addNewButton")
+    btnImg.setAttribute("alt", "plusBtn")
+    btnImg.setAttribute("src", "./assets/plus.png")
+
+    btnDiv.appendChild(btnImg)
+    aside.appendChild(btnDiv)
+    position.appendChild(aside)
+
+    btnDiv.addEventListener("click", switchToAddNew)
 }
 
 function setPicture(imgElement){
@@ -93,3 +113,41 @@ function setPicture(imgElement){
         })
     });
 }
+
+function switchToMain(){
+    let position = document.getElementById("main")
+    /*for(let element of position.children){
+        if(element.tagName == "FORM"){
+            continue;
+        }
+        position.removeChild(element)
+    }*/
+    let catsDiv = document.createElement("div")
+    catsDiv.setAttribute("id", "cats")
+
+    position.appendChild(catsDiv)
+
+}
+function switchToAddNew(){
+    
+    let text = document.createTextNode("Ide jön a form")
+
+    let position = document.getElementById("main")
+    let addNewDiv = document.createElement("div")
+
+    /*for(let element of position.children){
+        console.log(element)
+        position.removeChild(element)
+    }*/
+
+    addNewDiv.setAttribute("id", "addNew")
+
+    addNewDiv.appendChild(text)
+    position.appendChild(addNewDiv)
+}
+
+function addNew(){
+    cats.push(new Cat("Abeszin", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica"))
+    switchToMain()
+    displayCats(cats)
+}   

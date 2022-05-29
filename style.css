@@ -101,3 +101,63 @@ img{
     width: 75%;
     height: 75%
 }
+.formContainer label{
+    width: 30%;
+    display: inline-block;
+}
+.formContainer input, .formContainer select, .formContainer option, .formContainer textarea{
+    width: 65%;
+    display: inline-block;
+}
+.formContainer textarea{
+    height: 25px;
+    resize: vertical;
+}
+.formContainer{
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
+#addNewForm{
+    padding: 10px;
+}
+
+#closePopup{
+    width: 15px;
+    height: 15px;
+    position: absolute;
+
+    top: 10px;
+    right: 10px;
+
+    cursor: pointer;
+}
+
+/*Lali Shadow*/
+
+#closePopup img{
+    transform: rotate(45deg);
+}
+
+#popupBackground{
+    z-index: 100;
+    display: flex;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    top:0;
+    left: 0;
+  }
+  .popup{
+    width: 400px;
+    /*height: 150px;*/
+    background-color: white;
+    box-shadow: 0 0 8px;
+    position: absolute;
+    margin: auto;
+    padding: 20px 0;
+    border-radius: 10px;
+  }
