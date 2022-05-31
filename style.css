@@ -98,8 +98,8 @@ img{
     transform: scale(1.05);
 }
 #addNewButton{
-    width: 75%;
-    height: 75%
+    width: 60%;
+    height: 60%
 }
 .formContainer label{
     width: 30%;

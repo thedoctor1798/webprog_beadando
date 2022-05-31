@@ -1,5 +1,3 @@
-let data;
-
 function Cat(type, name, color, age, gender, info){
     this.type = type,
     this.name = name,
@@ -9,6 +7,13 @@ function Cat(type, name, color, age, gender, info){
     this.info = info
 }
 
+function FormElement(elementType, label, id, typeAttribute){
+    this.elementType = elementType,
+    this.id = id,
+    this.label = label,
+    this.typeAttribute = typeAttribute
+}
+
 let cats = [
     new Cat("Abeszin", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica"),
     new Cat("Abeszin", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica"),
@@ -16,6 +21,23 @@ let cats = [
     new Cat("Abeszin", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica")
 ]
 
+let addNewFormElements =[
+    new FormElement("input","Fajta","type","text"),
+    new FormElement("input","Név","name","text"),
+    new FormElement("input","Szín","color","text"),
+    new FormElement("input","Kor","age","number"),
+    new FormElement("select","Nem","gender", ""),
+    new FormElement("textarea","Leírás","info","")
+]
+
+addNewFormElements.find((element)=>{
+    if(element.elementType == "select"){
+        element.options = ["Kandúr", "Nőstény"]
+
+    }
+})
+
+console.log(addNewFormElements)
 
 switchToMain()
 displayCats(cats)
@@ -101,13 +123,80 @@ function displayPlusButton(){
     aside.appendChild(btnDiv)
     position.appendChild(aside)
 
-    btnDiv.addEventListener("click", switchToAddNew)
+    btnDiv.addEventListener("click", displayAddNewForm)
+}
+
+function displayAddNewForm(){
+    let position = document.getElementById("main")
+    let popupBackground = document.createElement("div");
+    let popup = document.createElement("div");
+    let closePopupDiv = document.createElement("div");
+    let addNewForm = document.createElement("form");
+    let closeImg = document.createElement("img");
+    let buttonContainer = document.createElement("div")
+    let btn = document.createElement("button")
+
+    position.appendChild(popupBackground)
+    popupBackground.appendChild(popup)
+    closePopupDiv.appendChild(closeImg)
+    popup.appendChild(closePopupDiv)
+    popup.appendChild(addNewForm)
+    
+
+    popupBackground.setAttribute("id", "popupBackground")
+    popup.setAttribute("class", "popup")
+    closePopupDiv.setAttribute("id", "closePopup")
+    closeImg.setAttribute("src", "./assets/plus.png")
+    addNewForm.setAttribute("id", "addNewForm")
+
+    closePopupDiv.addEventListener("click", closePopup)
+
+    for(let formInput of addNewFormElements){
+        let formContainer = document.createElement("div");
+        let label = document.createElement("label")
+        let labelText = document.createTextNode(formInput.label)
+
+        label.appendChild(labelText)
+        formContainer.appendChild(label)
+        addNewForm.appendChild(formContainer)
+
+        formContainer.setAttribute("class", "formContainer")
+        label.setAttribute("for", formInput.id)
+
+        if(formInput.elementType == "select"){
+
+            let select = document.createElement(formInput.elementType);
+            formContainer.appendChild(select)
+
+            for(let o of formInput.options){
+
+                let option = document.createElement("option")
+                let optionText = document.createTextNode(o)
+
+                option.appendChild(optionText)
+                select.appendChild(option)
+            }
+        }
+        else{
+            let input = document.createElement(formInput.elementType);
+            input.setAttribute("id", formInput.id)
+            input.setAttribute("type", formInput.typeAttribute)
+
+            formContainer.appendChild(input)
+        }
+    }
+
+    buttonContainer.setAttribute("class", "buttonContainer")
+
+    btn.appendChild(document.createTextNode("Küldés"))
+    buttonContainer.appendChild(btn)
+    addNewForm.appendChild(buttonContainer)
 }
 
 function setPicture(imgElement){
         fetch("https://cataas.com/cat").then(response => {
         response.blob().then(blobResponse => {
-            data = blobResponse;
+            let data = blobResponse;
             const urlCreator = window.URL || window.webkitURL;
             imgElement.src = urlCreator.createObjectURL(data);
         })
@@ -151,3 +240,10 @@ function addNew(){
     switchToMain()
     displayCats(cats)
 }   
+
+function closePopup(){
+    let popupPosition = document.getElementById("popupBackground")
+    let popupParent = popupPosition.parentElement;
+
+    popupParent.removeChild(popupPosition)
+}

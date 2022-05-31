@@ -12,7 +12,7 @@
     <main id="main">
         <div id="popupBackground">
             <div class="popup">
-                <div id="closePopup">
+                <div id="closePopup" onclick="closePopup()">
                     <img src="./assets/plus.png">
                 </div>
                 <form id="addNewForm" onsubmit="return false">
@@ -45,7 +45,7 @@
                         <textarea id="info"></textarea>
                     </div>
                     <div class="buttonContainer">
-                        <button onclick="addNew()">Add</button>
+                        <button onclick="addNew()">Küldés</button>
                     </div>
                     
                 </form>
