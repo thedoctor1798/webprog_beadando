@@ -161,3 +161,8 @@ img{
     padding: 20px 0;
     border-radius: 10px;
   }
+.blur{
+
+    filter: blur(4px);
+
+  }
