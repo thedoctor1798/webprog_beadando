@@ -1,172 +1,323 @@
-html, body{
-    font-family: Arial, Helvetica, sans-serif;
-    padding: 0;
-    margin: 0;
+function Cat(type, name, color, age, gender, info){
+    this.type = type,
+    this.name = name,
+    this.color = color,
+    this.age = age,
+    this.gender = gender,
+    this.info = info
 }
-html{
+
+function FormElement(elementType, label, id, typeAttribute){
+    this.elementType = elementType,
+    this.id = id,
+    this.label = label,
+    this.typeAttribute = typeAttribute
+}
+
+let cats = [
+    new Cat("Abeszin", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica"),
+    new Cat("Abeszin", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica"),
+    new Cat("Abeszin", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica"),
+    new Cat("Abeszin", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica")
+]
+
+let addNewFormElements =[
+    new FormElement("input","Fajta","type","text"),
+    new FormElement("input","Név","name","text"),
+    new FormElement("input","Szín","color","text"),
+    new FormElement("input","Kor","age","number"),
+    new FormElement("select","Nem","gender", ""),
+    new FormElement("textarea","Leírás","info","")
+]
+
+addNewFormElements.find((element)=>{
+    if(element.elementType == "select"){
+        element.options = ["Kandúr", "Nőstény"]
+
+    }
+})
+
+console.log(addNewFormElements)
+
+switchToMain()
+
+for(let cat of cats){
+    displayCat(cat)
+}
+
+
+
+function displayCat(cat){
+
+    let catsDiv = document.getElementById("cats")
+
+    let catDiv = document.createElement("div");
+    let imageContDiv = document.createElement("div");
+    let infoContDiv = document.createElement("div");
+    let catImg = document.createElement("img");
+    let btnContDiv = document.createElement("div");
+    let btn = document.createElement("button");
+    let btnText = document.createTextNode("Adoptálás")
+
+    setPicture(catImg)
+    imageContDiv.appendChild(catImg)
+
+    catDiv.setAttribute("class", "cat")
+    imageContDiv.setAttribute("class", "imageContainer")
+    infoContDiv.setAttribute("class", "infoContainer")
+    btnContDiv.setAttribute("class", "buttonContainer")
+
+    btn.appendChild(btnText)
+    btnContDiv.appendChild(btn)
+
+    btn.addEventListener("click", function(){
+        displayAdoptForm()
+    })  
+
+    catDiv.appendChild(imageContDiv)
+    catDiv.appendChild(infoContDiv)
+    catDiv.appendChild(btnContDiv)
+
+    for(let c in cat){
+        
+        let titleText = document.createTextNode(getTitleByIndex(c))
+        let infoText = document.createTextNode(cat[c])
+
+        let h3element = document.createElement("h3")
+        let pElement = document.createElement("p")
+
+        h3element.appendChild(titleText)
+        pElement.appendChild(infoText)
+
+        infoContDiv.appendChild(h3element)
+        infoContDiv.appendChild(pElement)
+    }
+
+    catsDiv.appendChild(catDiv)
+    displayPlusButton()
+}
+
+function getTitleByIndex(index){
+    switch(index){
+        case "type": return "Fajta: ";
+        case "name": return "Név: ";
+        case "color": return "Szín: ";
+        case "age": return "Kor: ";
+        case "gender": return "Nem: ";
+        case "info": return "Leírás:";
+        default: return "Egyéb:";
+    }
+}
+
+function displayPlusButton(){
+    let position = document.getElementsByTagName("body")[0]
+    let aside = document.createElement("aside")
+    let btnDiv = document.createElement("div")
+    let btnImg = document.createElement("img")
+
+    btnDiv.setAttribute("id", "addNewContainer")
+    btnImg.setAttribute("id", "addNewButton")
+    btnImg.setAttribute("alt", "plusBtn")
+    btnImg.setAttribute("src", "./assets/plus.png")
+
+    btnDiv.appendChild(btnImg)
+    aside.appendChild(btnDiv)
+    position.appendChild(aside)
+
+    btnDiv.addEventListener("click", function(){
+        displayAddNewForm()
+        document.getElementById("cats").setAttribute("class", "blur")
+    })
+}
+
+function displayPopup(contentForm){
+    let position = document.getElementById("main")
+    let popupBackground = document.createElement("div");
+    let popup = document.createElement("div");
+    let closePopupDiv = document.createElement("div");
+    
+    let closeImg = document.createElement("img");
+    
+    position.appendChild(popupBackground)
+    popupBackground.appendChild(popup)
+    closePopupDiv.appendChild(closeImg)
+    popup.appendChild(closePopupDiv)
+    popup.appendChild(contentForm)
+    
+    popupBackground.setAttribute("id", "popupBackground")
+    popup.setAttribute("class", "popup")
+    closePopupDiv.setAttribute("id", "closePopup")
+    closeImg.setAttribute("src", "./assets/plus.png")
+    
+    closePopupDiv.addEventListener("click", closePopup)
     
 }
-#cats{
-    width: 100%;
 
-    padding: 50px; /*Lajosnak nem tetszett a távolság*/
-    box-sizing: border-box;
+function displayAddNewForm(){
+
+    let addNewForm = document.createElement("form");
+    // let buttonContainer = document.createElement("div")
+    // let btn = document.createElement("button")
+
+    addNewForm.setAttribute("id", "addNewForm")
+    addNewForm.addEventListener("submit", function(e){
+        e.preventDefault()
+    })
+
+    displayPopup(addNewForm)
+
+    for(let formInput of addNewFormElements){
+        let formContainer = document.createElement("div");
+        let label = document.createElement("label")
+        let labelText = document.createTextNode(formInput.label)
+
+        label.appendChild(labelText)
+        formContainer.appendChild(label)
+        addNewForm.appendChild(formContainer)
+
+        formContainer.setAttribute("class", "formContainer")
+        label.setAttribute("for", formInput.id)
+
+        if(formInput.elementType == "select"){
+
+            let select = document.createElement(formInput.elementType);
+
+            select.setAttribute("id", formInput.id)
+
+            formContainer.appendChild(select)
+
+            for(let o of formInput.options){
+
+                let option = document.createElement("option")
+                let optionText = document.createTextNode(o)
+
+                option.appendChild(optionText)
+                select.appendChild(option)
+            }
+        }
+        else{
+            let input = document.createElement(formInput.elementType);
+            input.setAttribute("id", formInput.id)
+            input.setAttribute("type", formInput.typeAttribute)
+
+            formContainer.appendChild(input)
+        }
+    }
+
+
+    createFormButton(addNew, "Küldés", addNewForm)
+
+    /*buttonContainer.setAttribute("class", "buttonContainer")
+
+    btn.appendChild(document.createTextNode("Küldés"))
+    buttonContainer.appendChild(btn)
+    addNewForm.appendChild(buttonContainer)
+
+    btn.addEventListener("click", addNew)*/
+}
+
+function displayAdoptForm(){
     
-    margin: auto;
-
-    display: flex; /*Itt volt a csavar*/
-    justify-content: space-between;
-    flex-wrap: wrap;
+    createFormButton(function(){alert("click")}, "Click")
 }
-.cat{
-    display: inline-block;
-    width: 300px;
-    height: 600px;
+
+function createFormButton(callback, text, position){
+
+    let buttonContainer = document.createElement("div")
+    let btn = document.createElement("button")
+
+    buttonContainer.setAttribute("class", "buttonContainer")
+
+    btn.appendChild(document.createTextNode(text))
+    buttonContainer.appendChild(btn)
+
+    btn.addEventListener("click", callback)
+
+    position.appendChild(buttonContainer)
+}
+
+function setPicture(imgElement){
+        fetch("https://cataas.com/cat")
+        .then(response => {
+        response.blob().then(blobResponse => {
+            let data = blobResponse;
+            const urlCreator = window.URL || window.webkitURL;
+            imgElement.src = urlCreator.createObjectURL(data);
+        })
+    });
+}
+
+function switchToMain(){
+    let position = document.getElementById("main")
+    /*for(let element of position.children){
+        if(element.tagName == "FORM"){
+            continue;
+        }
+        position.removeChild(element)
+    }*/
+    let catsDiv = document.createElement("div")
+    catsDiv.setAttribute("id", "cats")
+
+    position.appendChild(catsDiv)
+
+}
+function switchToAddNew(){
     
-    border: 1px solid grey;
-    border-radius: 5px;
-    margin: 20px;
+    let text = document.createTextNode("Ide jön a form")
 
-    box-shadow: 0px 0px 8px;
+    let position = document.getElementById("main")
+    let addNewDiv = document.createElement("div")
+
+    /*for(let element of position.children){
+        console.log(element)
+        position.removeChild(element)
+    }*/
+
+    addNewDiv.setAttribute("id", "addNew")
+
+    addNewDiv.appendChild(text)
+    position.appendChild(addNewDiv)
+}
+
+function addNew(){
     
-}
+    if(document.getElementById("addNewForm")){
+        let name = document.getElementById("name").value;
+        let type = document.getElementById("type").value; 
+        let color = document.getElementById("color").value; 
+        let age = document.getElementById("age").value;
+        let gender = document.getElementById("gender").value; 
+        let info = document.getElementById("info").value;
 
-.imageContainer{
-    box-sizing: border-box;
-    width: 300px;
-    height: 250px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-}
-img{
-    object-fit: cover;
-    max-width: 100%;
-    max-height: 100%;
-    display: block;
-}
-.infoContainer{
-    padding: 20px;
-}
-.infoContainer h3, .infoContainer p{
-    display: inline-block;
-    width: 49%;
-    box-sizing: border-box;
-    margin: 5px 0;
-} 
-.infoContainer h3{
-    font-weight: bold;
-    color: darkblue;
-}
+        let cat = new Cat (name, type, color, age, gender, info)
 
-.buttonContainer{
-    width: 100%;
-}
-.buttonContainer button{
-    margin: auto;
-    display: block;
-    padding: 8px;
-    border: 1px solid white ;
-    border-radius: 10px;
-    background-color: royalblue;
-    color: white;
-}
-.buttonContainer button:hover{
-    cursor: pointer;
-    transform: scale(1.05);
-    box-shadow: 0px 0px 8px;
+        let isFormValid = 
+            validateEmptyInput(name) && validateEmptyInput(type) && validateEmptyInput(color) &&
+            validateEmptyInput(age) && validateEmptyInput(info)
+
+        if(isFormValid){
+            cats.push(cat);
+            console.log(cats)
+            displayCat(cat)
+            closePopup()
+        }
+        else{
+            alert("Tölts ki minden input mezőt!!!")
+        }
+            
+    }
+    
 }   
-#addNewContainer{
-    display: flex;
-    width: 60px;
-    height: 60px;
-    padding: 10px;
-    border: 1px solid gray;
-    background-color: white;
-    border-radius: 40px;
-    padding: 0;
-    margin: 0;
-    position: fixed;
-    right: 40px;
-    bottom: 40px;
 
-    justify-content: center;
-    align-items: center;
+function closePopup(){
+    let popupPosition = document.getElementById("popupBackground")
+    let popupParent = popupPosition.parentElement;
 
-    box-shadow: 0 0 8px;
-    cursor: pointer;
-}
-#addNewContainer:hover{
-    transform: scale(1.05);
-}
-#addNewButton{
-    width: 60%;
-    height: 60%
-}
-.formContainer label{
-    width: 30%;
-    display: inline-block;
-}
-.formContainer input, .formContainer select, .formContainer option, .formContainer textarea{
-    width: 65%;
-    display: inline-block;
-}
-.formContainer textarea{
-    height: 25px;
-    resize: vertical;
-}
-.formContainer{
-    padding: 10px 20px;
-    box-sizing: border-box;
+    document.getElementById("cats").removeAttribute("class")
+
+    popupParent.removeChild(popupPosition)
 }
 
-#addNewForm{
-    padding: 10px;
+function validateEmptyInput(input){
+    return (input=="")?false:true;
 }
-
-#closePopup{
-    width: 15px;
-    height: 15px;
-    position: absolute;
-
-    top: 10px;
-    right: 10px;
-
-    cursor: pointer;
-}
-
-/*Lali Shadow*/
-
-#closePopup img{
-    transform: rotate(45deg);
-}
-
-#popupBackground{
-    z-index: 100;
-    display: flex;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    justify-content: center;
-    align-items: center;
-    top:0;
-    left: 0;
-
-    
-  }
-  .popup{
-    width: 400px;
-    /*height: 150px;*/
-    background-color: white;
-    box-shadow: 0 0 8px;
-    position: absolute;
-    margin: auto;
-    padding: 20px 0;
-    border-radius: 10px;
-  }
-
-  .blur{
-    filter: blur(4px);
-  }

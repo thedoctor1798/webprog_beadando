@@ -3,6 +3,9 @@ html, body{
     padding: 0;
     margin: 0;
 }
+html{
+    
+}
 #cats{
     width: 100%;
 
@@ -150,6 +153,8 @@ img{
     align-items: center;
     top:0;
     left: 0;
+
+    
   }
   .popup{
     width: 400px;
@@ -161,8 +166,7 @@ img{
     padding: 20px 0;
     border-radius: 10px;
   }
-.blur{
 
+  .blur{
     filter: blur(4px);
-
   }
