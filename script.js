@@ -30,6 +30,12 @@ let addNewFormElements =[
     new FormElement("textarea","Leírás","info","")
 ]
 
+let adoptFormElements =[
+    new FormElement("input","Név","name","text"),
+    new FormElement("input","Telefonszám","phone","text"),
+    new FormElement("input","Születési dátum","date","date"),
+]
+
 addNewFormElements.find((element)=>{
     if(element.elementType == "select"){
         element.options = ["Kandúr", "Nőstény"]
@@ -45,6 +51,7 @@ for(let cat of cats){
     displayCat(cat)
 }
 
+displayPlusButton()
 
 
 function displayCat(cat){
@@ -70,8 +77,9 @@ function displayCat(cat){
     btn.appendChild(btnText)
     btnContDiv.appendChild(btn)
 
-    btn.addEventListener("click", function(){
-        displayAdoptForm()
+    btn.addEventListener("click", function(e){
+        createNewForm("adoptNewForm", adoptFormElements, function(){alert("click")}, e)
+        console.log(e)
     })  
 
     catDiv.appendChild(imageContDiv)
@@ -94,7 +102,7 @@ function displayCat(cat){
     }
 
     catsDiv.appendChild(catDiv)
-    displayPlusButton()
+    
 }
 
 function getTitleByIndex(index){
@@ -125,7 +133,7 @@ function displayPlusButton(){
     position.appendChild(aside)
 
     btnDiv.addEventListener("click", function(){
-        displayAddNewForm()
+        createNewForm("addNewForm", addNewFormElements, addNew)
         document.getElementById("cats").setAttribute("class", "blur")
     })
 }
@@ -153,27 +161,27 @@ function displayPopup(contentForm){
     
 }
 
-function displayAddNewForm(){
+function createNewForm(formId, formElements, submitFunction, startEvent){
 
-    let addNewForm = document.createElement("form");
+    let newForm = document.createElement("form");
     // let buttonContainer = document.createElement("div")
     // let btn = document.createElement("button")
 
-    addNewForm.setAttribute("id", "addNewForm")
-    addNewForm.addEventListener("submit", function(e){
+    newForm.setAttribute("id", formId)
+    newForm.addEventListener("submit", function(e){
         e.preventDefault()
     })
 
-    displayPopup(addNewForm)
+    displayPopup(newForm)
 
-    for(let formInput of addNewFormElements){
+    for(let formInput of formElements){
         let formContainer = document.createElement("div");
         let label = document.createElement("label")
         let labelText = document.createTextNode(formInput.label)
 
         label.appendChild(labelText)
         formContainer.appendChild(label)
-        addNewForm.appendChild(formContainer)
+        newForm.appendChild(formContainer)
 
         formContainer.setAttribute("class", "formContainer")
         label.setAttribute("for", formInput.id)
@@ -205,7 +213,7 @@ function displayAddNewForm(){
     }
 
 
-    createFormButton(addNew, "Küldés", addNewForm)
+    createFormButton(submitFunction, "Küldés", newForm)
 
     /*buttonContainer.setAttribute("class", "buttonContainer")
 
