@@ -14,11 +14,13 @@ function FormElement(elementType, label, id, typeAttribute){
     this.typeAttribute = typeAttribute
 }
 
+adoptedCats = []
+
 let cats = [
-    new Cat("Abeszin", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica"),
-    new Cat("Abeszin", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica"),
-    new Cat("Abeszin", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica"),
-    new Cat("Abeszin", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica")
+    new Cat("Abeszin1", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica"),
+    new Cat("Abeszin2", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica"),
+    new Cat("Abeszin3", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica"),
+    new Cat("Abeszin4", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica")
 ]
 
 let addNewFormElements =[
@@ -31,9 +33,9 @@ let addNewFormElements =[
 ]
 
 let adoptFormElements =[
-    new FormElement("input","Név","name","text"),
+    new FormElement("input","Név","ownerName","text"),
     new FormElement("input","Telefonszám","phone","text"),
-    new FormElement("input","Születési dátum","date","date"),
+    new FormElement("input","Születési dátum","birthDate","date"),
 ]
 
 addNewFormElements.find((element)=>{
@@ -78,7 +80,7 @@ function displayCat(cat){
     btnContDiv.appendChild(btn)
 
     btn.addEventListener("click", function(e){
-        createNewForm("adoptNewForm", adoptFormElements, function(){alert("click")}, e)
+        createNewForm("adoptNewForm", adoptFormElements, function(){adoptCat(e)}, e)
         console.log(e)
     })  
 
@@ -212,9 +214,17 @@ function createNewForm(formId, formElements, submitFunction, startEvent){
         }
     }
 
-
     createFormButton(submitFunction, "Küldés", newForm)
 
+    // if(startEvent){
+    //     createFormButton(function(){
+    //         submitFunction(startEvent)
+    //     }, "Küldés", newForm)
+    // }
+    // else{
+    //     createFormButton(submitFunction, "Küldés", newForm)
+    // }
+    
     /*buttonContainer.setAttribute("class", "buttonContainer")
 
     btn.appendChild(document.createTextNode("Küldés"))
@@ -315,7 +325,28 @@ function addNew(){
             
     }
     
-}   
+}
+
+function adoptCat(eventObject){
+    
+    let catDiv = eventObject.target.parentElement.parentElement
+    let catsDiv = catDiv.parentElement;
+    let index = Array.from(catsDiv.children).indexOf(catDiv)
+    let adoptedCat = cats[index]
+    
+    adoptedCat.ownerName = document.getElementById("ownerName").value
+    adoptedCat.ownerPhone = document.getElementById("phone").value
+    adoptedCat.ownerBirth = document.getElementById("birthDate").value
+
+    adoptedCats.push(adoptedCat)
+    console.log(adoptedCats)
+
+    cats.splice(index, 1)
+    console.log(cats)
+
+    catsDiv.removeChild(catDiv)
+    closePopup()
+}
 
 function closePopup(){
     let popupPosition = document.getElementById("popupBackground")
