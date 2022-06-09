@@ -1,12 +1,19 @@
-function Cat(type, name, color, age, gender, info){
-    this.type = type,
+/*
+Here creating the constructor for the cats object
+*/
+function Cat(name, type, color, age, gender, info){
     this.name = name,
+    this.type = type,
     this.color = color,
     this.age = age,
     this.gender = gender,
     this.info = info
 }
-
+/*
+This is the constructor for the form elements
+We set here the element type(input, select, textarea etc.),
+the label of the input, the id for the input and the attribute type of it.
+*/
 function FormElement(elementType, label, id, typeAttribute){
     this.elementType = elementType,
     this.id = id,
@@ -14,52 +21,64 @@ function FormElement(elementType, label, id, typeAttribute){
     this.typeAttribute = typeAttribute
 }
 
-adoptedCats = []
-
+adoptedCats = []    //This is an empty array for the adopted cats
+/*
+This is an array the default cats are stored. The new cats will be here as well.
+*/
 let cats = [
-    new Cat("Abeszin1", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica"),
-    new Cat("Abeszin2", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica"),
-    new Cat("Abeszin3", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica"),
-    new Cat("Abeszin4", "Abigél", "abe színű", 5, "Nőstény", "Gyerek szerető, bújós kislány cica")
+    new Cat("Flórián","Perzsa", "fehér", 5, "Kandúr", "Barátságos, játékos, szereti a társoságot, szereti a kacsahúst"),
+    new Cat("Bendegúz", "Sziámi", "fekete/barna", 3, "Kandúr", "Lustálkodó, hízelgő, mindig éhes"),
+    new Cat("Hanna", "Bengáli", "szürke/fekete", 7, "Nőstény", "Játékos, karmolászós ezért gyereknek nem ke odaadni"),
+    new Cat("Klementina", "Skót lógófülü", "világosszürke", 2, "Nőstény", "Barátságos, bujós, szeret enni és hizelegni"),
+    new Cat("Kleo", "Szfinx", "rózsaszín/barna", 5, "Nőstény", " Mogorva arckifejezése ellenére kedves, barátságos, játekos, hal a kedvence neki"),
+    new Cat("Lord", "Tacskomacska", "sötétbarna", 1, "Kandúr", "Marhahús kedvelő, szeret futni, barátságos"),
+    new Cat("Bogyó", "Brit rövidszőrű", "világosszürke", 2, "Nőstény", "Halacskás kaja, lustálkodó"),
+    new Cat("Bódi", "Himalája macska", "fehér", 6, "kandúr", "játékos, gyerekszerető, bujós")
 ]
-
+/*
+This is the array for the addNew form element. This is used for generating the add new cat form.
+*/
 let addNewFormElements =[
-    new FormElement("input","Fajta","type","text"),
     new FormElement("input","Név","name","text"),
+    new FormElement("input","Fajta","type","text"),
     new FormElement("input","Szín","color","text"),
     new FormElement("input","Kor","age","number"),
     new FormElement("select","Nem","gender", ""),
     new FormElement("textarea","Leírás","info","")
 ]
-
+/*
+Same as the other one but for the adoptation form.
+*/
 let adoptFormElements =[
     new FormElement("input","Név","ownerName","text"),
     new FormElement("input","Telefonszám","phone","text"),
     new FormElement("input","Születési dátum","birthDate","date"),
 ]
-
+/*
+Whith this we choose the select type input and set the options for it.
+*/
 addNewFormElements.find((element)=>{
     if(element.elementType == "select"){
         element.options = ["Kandúr", "Nőstény"]
-
     }
 })
 
-console.log(addNewFormElements)
+loadMain()  //Load the site first.
 
-switchToMain()
-
-for(let cat of cats){
+for(let cat of cats){   //Display the cats for the first time from the cats array.
     displayCat(cat)
 }
 
-displayPlusButton()
+displayPlusButton() ///Add the plus button wich can add more cats to the site.
 
-
+/*
+The displayCat function is used for displaying a cat on the site without reloading it.
+*/
 function displayCat(cat){
 
-    let catsDiv = document.getElementById("cats")
+    let catsDiv = document.getElementById("cats")   //Get the outer div element.
 
+    //Create the elemnts for one cat
     let catDiv = document.createElement("div");
     let imageContDiv = document.createElement("div");
     let infoContDiv = document.createElement("div");
@@ -68,9 +87,10 @@ function displayCat(cat){
     let btn = document.createElement("button");
     let btnText = document.createTextNode("Adoptálás")
 
-    setPicture(catImg)
+    setPicture(catImg)  //Add the random cat picture to the catImg element.
     imageContDiv.appendChild(catImg)
 
+    //Set every element's attributes for the css.
     catDiv.setAttribute("class", "cat")
     imageContDiv.setAttribute("class", "imageContainer")
     infoContDiv.setAttribute("class", "infoContainer")
@@ -78,39 +98,57 @@ function displayCat(cat){
 
     btn.appendChild(btnText)
     btnContDiv.appendChild(btn)
-
+    
+    //Add the event listener to the button. When the button is clicked call the adoptCat function and the background is blured.
     btn.addEventListener("click", function(e){
+        document.getElementById("cats").setAttribute("class", "blur")
         createNewForm("adoptNewForm", adoptFormElements, function(){adoptCat(e)}, e)
-        console.log(e)
     })  
 
     catDiv.appendChild(imageContDiv)
     catDiv.appendChild(infoContDiv)
     catDiv.appendChild(btnContDiv)
 
-    for(let c in cat){
+    for(let c in cat){  // Witch a foreach we go trough the cat array.
         
         let titleText = document.createTextNode(getTitleByIndex(c))
         let infoText = document.createTextNode(cat[c])
 
-        let h3element = document.createElement("h3")
-        let pElement = document.createElement("p")
+        //This if is for the name label. If the titleText contains an "n" we don't add label to this row, 
+        //but set a class for the <h3> element.
+        if(titleText.textContent == "n"){ 
+            let h3element = document.createElement("h3")
+            let pElement = document.createElement("p")
 
-        h3element.appendChild(titleText)
-        pElement.appendChild(infoText)
+            h3element.setAttribute("class", "nameTag")
 
-        infoContDiv.appendChild(h3element)
-        infoContDiv.appendChild(pElement)
+            pElement.appendChild(infoText)
+
+            infoContDiv.appendChild(h3element)
+            infoContDiv.appendChild(pElement)
+        }
+        else{
+            let h3element = document.createElement("h3")
+            let pElement = document.createElement("p")
+    
+            h3element.appendChild(titleText)
+            pElement.appendChild(infoText)
+    
+            infoContDiv.appendChild(h3element)
+            infoContDiv.appendChild(pElement)
+        }
     }
 
-    catsDiv.appendChild(catDiv)
+    catsDiv.appendChild(catDiv) //Add one cat to the outer div.
     
 }
-
+/*
+This function creates the Title for the cats displayed on the page depends on the index.
+*/
 function getTitleByIndex(index){
     switch(index){
+        case "name": return "n";
         case "type": return "Fajta: ";
-        case "name": return "Név: ";
         case "color": return "Szín: ";
         case "age": return "Kor: ";
         case "gender": return "Nem: ";
@@ -118,7 +156,9 @@ function getTitleByIndex(index){
         default: return "Egyéb:";
     }
 }
-
+/*
+The displayPlusButton function as the name suggests displays the plus button in the bottom left corner.
+*/
 function displayPlusButton(){
     let position = document.getElementsByTagName("body")[0]
     let aside = document.createElement("aside")
@@ -134,12 +174,17 @@ function displayPlusButton(){
     aside.appendChild(btnDiv)
     position.appendChild(aside)
 
+    //Set the event listener to the img. When clicked creat a new form to add a new cat and blur the background.
     btnDiv.addEventListener("click", function(){
         createNewForm("addNewForm", addNewFormElements, addNew)
         document.getElementById("cats").setAttribute("class", "blur")
+        document.getElementById("head").setAttribute("class", "blur")
     })
 }
 
+/*
+This function handle the poup window creation. Just a blank popup window with a close "X" button.
+*/
 function displayPopup(contentForm){
     let position = document.getElementById("main")
     let popupBackground = document.createElement("div");
@@ -162,19 +207,22 @@ function displayPopup(contentForm){
     closePopupDiv.addEventListener("click", closePopup)
     
 }
-
-function createNewForm(formId, formElements, submitFunction, startEvent){
+/*
+This function generate the form elements into the popup. We can set the id for the form HTML element,
+the elements of the form wich are defined in an array and the function wich runs when submit button is clicked.
+*/
+function createNewForm(formId, formElements, submitFunction){
 
     let newForm = document.createElement("form");
-    // let buttonContainer = document.createElement("div")
-    // let btn = document.createElement("button")
 
     newForm.setAttribute("id", formId)
+
+    //Prevent the page reloading here when submit button clicked.
     newForm.addEventListener("submit", function(e){
         e.preventDefault()
     })
 
-    displayPopup(newForm)
+    displayPopup(newForm)   //Put the form in the poup window.
 
     for(let formInput of formElements){
         let formContainer = document.createElement("div");
@@ -188,6 +236,7 @@ function createNewForm(formId, formElements, submitFunction, startEvent){
         formContainer.setAttribute("class", "formContainer")
         label.setAttribute("for", formInput.id)
 
+        //This if is for the select type HTML element. If it's a select we generate the options with a foreach.
         if(formInput.elementType == "select"){
 
             let select = document.createElement(formInput.elementType);
@@ -213,32 +262,13 @@ function createNewForm(formId, formElements, submitFunction, startEvent){
             formContainer.appendChild(input)
         }
     }
-
-    createFormButton(submitFunction, "Küldés", newForm)
-
-    // if(startEvent){
-    //     createFormButton(function(){
-    //         submitFunction(startEvent)
-    //     }, "Küldés", newForm)
-    // }
-    // else{
-    //     createFormButton(submitFunction, "Küldés", newForm)
-    // }
-    
-    /*buttonContainer.setAttribute("class", "buttonContainer")
-
-    btn.appendChild(document.createTextNode("Küldés"))
-    buttonContainer.appendChild(btn)
-    addNewForm.appendChild(buttonContainer)
-
-    btn.addEventListener("click", addNew)*/
+    createFormButton(submitFunction, "Küldés", newForm) //Create the button with the createFormButton function. 
 }
-
-function displayAdoptForm(){
-    
-    createFormButton(function(){alert("click")}, "Click")
-}
-
+/*
+This funtion generate the button for the form window.
+we can set the callback type, the text displayed on the button and the position.
+Position means which item it contains.
+*/
 function createFormButton(callback, text, position){
 
     let buttonContainer = document.createElement("div")
@@ -253,9 +283,13 @@ function createFormButton(callback, text, position){
 
     position.appendChild(buttonContainer)
 }
-
+/*
+This function calls random cat pictures from a free API with 600*600 size
+and set the image in the image imgElement.
+In the fetch we prevent caching the pictures on page refresh.
+*/
 function setPicture(imgElement){
-        fetch("https://cataas.com/cat")
+        fetch("https://cataas.com/cat?width=600&height=600",{cache: "no-cache"})    //Itt kell a linket átírni értelemszerűen az angol tudásodra támaszkodva
         .then(response => {
         response.blob().then(blobResponse => {
             let data = blobResponse;
@@ -264,39 +298,21 @@ function setPicture(imgElement){
         })
     });
 }
-
-function switchToMain(){
+/*
+The loadMain function gets the main element from the HTML
+and puts the outer div in it with "cats" id
+*/
+function loadMain(){
     let position = document.getElementById("main")
-    /*for(let element of position.children){
-        if(element.tagName == "FORM"){
-            continue;
-        }
-        position.removeChild(element)
-    }*/
     let catsDiv = document.createElement("div")
     catsDiv.setAttribute("id", "cats")
 
     position.appendChild(catsDiv)
 
 }
-function switchToAddNew(){
-    
-    let text = document.createTextNode("Ide jön a form")
-
-    let position = document.getElementById("main")
-    let addNewDiv = document.createElement("div")
-
-    /*for(let element of position.children){
-        console.log(element)
-        position.removeChild(element)
-    }*/
-
-    addNewDiv.setAttribute("id", "addNew")
-
-    addNewDiv.appendChild(text)
-    position.appendChild(addNewDiv)
-}
-
+/*
+Here can we read the data from the add new cat form and create a new cat in the cat array.
+*/
 function addNew(){
     
     if(document.getElementById("addNewForm")){
@@ -309,6 +325,7 @@ function addNew(){
 
         let cat = new Cat (name, type, color, age, gender, info)
 
+        //This is the validation to prevent empty form inputs.
         let isFormValid = 
             validateEmptyInput(name) && validateEmptyInput(type) && validateEmptyInput(color) &&
             validateEmptyInput(age) && validateEmptyInput(info)
@@ -326,28 +343,49 @@ function addNew(){
     }
     
 }
-
+/*
+This function handles cat adoptation. This will run when the adopt button clicked.
+*/
 function adoptCat(eventObject){
     
-    let catDiv = eventObject.target.parentElement.parentElement
+    let catDiv = eventObject.target.parentElement.parentElement //We go back with parenElement to the cats div where to delete the cat.
     let catsDiv = catDiv.parentElement;
-    let index = Array.from(catsDiv.children).indexOf(catDiv)
-    let adoptedCat = cats[index]
-    
-    adoptedCat.ownerName = document.getElementById("ownerName").value
-    adoptedCat.ownerPhone = document.getElementById("phone").value
-    adoptedCat.ownerBirth = document.getElementById("birthDate").value
+    let index = Array.from(catsDiv.children).indexOf(catDiv)    //Search for the adopted cat index in the outer div.
+    let adoptedCat = cats[index]    //Put the adopted cat into the array.
 
-    adoptedCats.push(adoptedCat)
-    console.log(adoptedCats)
+    //Read the data of the adopter from form.
+    let ownerName = document.getElementById("ownerName").value
+    let ownerPhone = document.getElementById("phone").value
+    let ownerBirth = document.getElementById("birthDate").value
 
-    cats.splice(index, 1)
-    console.log(cats)
+    let isFormValid = validateEmptyInput(ownerName) && validateEmptyInput(ownerPhone) && validateEmptyInput(ownerBirth)
+    let isPhoneValid = validatePhoneNumber(ownerPhone)
 
-    catsDiv.removeChild(catDiv)
-    closePopup()
+    //This is the validation to prevent empty form field and wrong phone number style.
+    if(isFormValid == false){
+        alert("Töltsön ki minden mezőt!!!")
+    }
+    else if(isPhoneValid == false){
+        alert("Hibás telefonszám!!!")
+    }
+    else{
+        //Add the adopter's data.
+        adoptedCat.ownerName = ownerName;
+        adoptedCat.ownerPhone = ownerPhone;
+        adoptedCat.ownerBirth = ownerBirth;
+
+        adoptedCats.push(adoptedCat)    //Push to the adoptedCat array.
+        console.log(adoptedCats)
+
+        cats.splice(index, 1)   //Remove the adopted cat from the cats array.
+
+        catsDiv.removeChild(catDiv) //Remove the cat from the website.
+        closePopup()    //And close the popup at the end.
+    }
 }
-
+/*
+This function removes the popup from his parentElement and with this we close the form and removes the attribute wich cause the blur.
+*/
 function closePopup(){
     let popupPosition = document.getElementById("popupBackground")
     let popupParent = popupPosition.parentElement;
@@ -356,7 +394,13 @@ function closePopup(){
 
     popupParent.removeChild(popupPosition)
 }
-
+/*
+This two function is for validating the inputs. first is for prevent empty input and second is for prevent wrong phone number format.
+*/
 function validateEmptyInput(input){
     return (input=="")?false:true;
+}
+function validatePhoneNumber(input){
+    let regex = /((?:\+?3|0)6)(?:-|\()?(\d{1,2})(?:-|\))?(\d{3})-?(\d{3,4})/
+    return input.match(regex)?true:false;
 }
