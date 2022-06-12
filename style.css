@@ -1,33 +1,101 @@
 html, body{
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Montserrat", sans-serif;
     padding: 0;
     margin: 0;
 }
+/*color changing word animation from some friendly indian friend*/
+.title-word {
+    animation: color-animation 4s linear infinite;
+  }
+  
+  /*we can change the colors here*/
+  .title-word-1 {
+    --color-1: #DF8453;
+    --color-2: #3D8DAE;
+    --color-3: #E4A9A8;
+  }
+  
+  .title-word-2 {
+    --color-1: #DBAD4A;
+    --color-2: #ACCFCB;
+    --color-3: #17494D;
+  }
+  
+  .title-word-3 {
+    --color-1: #ACCFCB;
+    --color-2: #E4A9A8;
+    --color-3: #ACCFCB;
+  }
+  
+  .title-word-4 {
+    --color-1: #3D8DAE;
+    --color-2: #DF8453;
+    --color-3: #E4A9A8;
+  }
+  
+  @keyframes color-animation {
+    0%    {color: var(--color-1)}
+    32%   {color: var(--color-1)}
+    33%   {color: var(--color-2)}
+    65%   {color: var(--color-2)}
+    66%   {color: var(--color-3)}
+    99%   {color: var(--color-3)}
+    100%  {color: var(--color-1)}
+  }
+
+  #container {
+    display: grid;
+    place-items: center;  
+    text-align: center;
+    height: 100vh;
+    background-color: black;
+  }
+  
+  .title {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 800;
+    font-size: 8.5vw;
+    text-transform: uppercase;
+  }
+/*animation ends here*/
+
+/*adoption cards*/
 #cats{
     width: 100%;
-
-    padding: 50px; /*Lajosnak nem tetszett a távolság*/
+    padding: 50px;
     box-sizing: border-box;
-    
     margin: auto;
 
-    display: flex; /*Itt volt a csavar*/
+    /*these lines make the adoption cards organized autimatically
+     to fit on the screen*/
+    display: flex; 
     justify-content: space-between;
     flex-wrap: wrap;
 }
+/*design of the cards*/
 .cat{
-    display: inline-block;
+    /*making sure the adopt button is in place*/
+    display: flex;   
+    flex-direction: column; 
+    height: auto;
     width: 300px;
-    height: 600px;
-    
-    border: 1px solid grey;
-    border-radius: 5px;
+    background-color: #646f6f;
+    border-radius: 10px;
     margin: 20px;
-
-    box-shadow: 0px 0px 8px;
+    transition-duration: 400ms; /*this sets the scaling animation's duration*/
     
 }
 
+/*some animation just to spice things up. if the cards are hovered
+ they look like they are floating*/
+.cat:hover{
+    transform: scale(1.1);
+    box-shadow: 0px 2px 8px;
+    
+}
+
+/*this is the container for the random cat pics. standard organizing,
+organized in center as usual*/
 .imageContainer{
     box-sizing: border-box;
     width: 300px;
@@ -36,15 +104,24 @@ html, body{
     justify-content: center;
     align-items: center;
     padding: 10px;
+    padding-left: 10%;
+    padding-right: 10%;
+    background-color: #87aab9;
+    border-radius: 10px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
+/*image's properties*/
 img{
     object-fit: cover;
     max-width: 100%;
     max-height: 100%;
     display: block;
 }
+/*info containers properties*/
 .infoContainer{
     padding: 20px;
+    flex: 1 1 auto;
 }
 .infoContainer h3, .infoContainer p{
     display: inline-block;
@@ -54,32 +131,43 @@ img{
 } 
 .infoContainer h3{
     font-weight: bold;
-    color: darkblue;
+    color:#e9e581;
+    text-align: center;
 }
-
+.infoContainer p{
+    text-align: left center;
+    color: lightgray;
+}
+/*button's properties*/
 .buttonContainer{
     width: 100%;
+    margin-bottom: 10px;
+
 }
 .buttonContainer button{
     margin: auto;
+    margin-top: 10%;
     display: block;
     padding: 8px;
-    border: 1px solid white ;
+    border: 2px solid #de1b1b;
     border-radius: 10px;
-    background-color: royalblue;
+    background-color: #de1b1b;
     color: white;
+    transition-duration: 150ms;
+    /*setting the scaling animation's duration, much less time needed here*/
 }
 .buttonContainer button:hover{
     cursor: pointer;
-    transform: scale(1.05);
-    box-shadow: 0px 0px 8px;
+    transform: scale(1.05); /*scaling animation again*/
+    box-shadow: 0px 2px 8px black;
 }   
+/*add new buttons properties*/
 #addNewContainer{
     display: flex;
     width: 60px;
     height: 60px;
     padding: 10px;
-    border: 1px solid gray;
+    border: 2px solid #de1b1b;
     background-color: white;
     border-radius: 40px;
     padding: 0;
@@ -87,20 +175,21 @@ img{
     position: fixed;
     right: 40px;
     bottom: 40px;
-
+    transition-duration: 150ms; /*scaling animation's duration again*/
     justify-content: center;
     align-items: center;
 
-    box-shadow: 0 0 8px;
     cursor: pointer;
 }
 #addNewContainer:hover{
-    transform: scale(1.05);
+    transform: scale(1.05); /*scaling animation again*/
+    box-shadow: 0px 0px 8px;
 }
 #addNewButton{
     width: 60%;
     height: 60%
 }
+/*form design*/
 .formContainer label{
     width: 30%;
     display: inline-block;
@@ -111,11 +200,14 @@ img{
 }
 .formContainer textarea{
     height: 25px;
-    resize: vertical;
+    resize: vertical; 
+    /*the user can resize the form vertically*/
 }
+
 .formContainer{
     padding: 10px 20px;
     box-sizing: border-box;
+
 }
 
 #addNewForm{
@@ -126,15 +218,13 @@ img{
     width: 15px;
     height: 15px;
     position: absolute;
-
     top: 10px;
     right: 10px;
-
     cursor: pointer;
 }
 
-/*Lali Shadow*/
-
+/*sets the close button for the forms w/ the same picture as addnew button,
+just rotated 45 degrees*/
 #closePopup img{
     transform: rotate(45deg);
 }
@@ -149,21 +239,23 @@ img{
     justify-content: center;
     align-items: center;
     top:0;
-    left: 0;
-
-    
+    left: 0;   
   }
+
+  /*setting the form popups properties*/
   .popup{
     width: 400px;
-    /*height: 150px;*/
+    height: auto;
     background-color: white;
-    box-shadow: 0 0 8px;
+    font-weight: bold;
     position: absolute;
     margin: auto;
     padding: 20px 0;
     border-radius: 10px;
+    padding-top: 30px;
   }
 
+  /*setting the blur's intensity behind the forms*/
   .blur{
-    filter: blur(4px);
+    filter: blur(20px);
   }

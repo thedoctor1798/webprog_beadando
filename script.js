@@ -102,6 +102,7 @@ function displayCat(cat){
     //Add the event listener to the button. When the button is clicked call the adoptCat function and the background is blured.
     btn.addEventListener("click", function(e){
         document.getElementById("cats").setAttribute("class", "blur")
+        document.getElementById("container").setAttribute("class", "blur")
         createNewForm("adoptNewForm", adoptFormElements, function(){adoptCat(e)}, e)
     })  
 
@@ -178,7 +179,7 @@ function displayPlusButton(){
     btnDiv.addEventListener("click", function(){
         createNewForm("addNewForm", addNewFormElements, addNew)
         document.getElementById("cats").setAttribute("class", "blur")
-        document.getElementById("head").setAttribute("class", "blur")
+        document.getElementById("container").setAttribute("class", "blur")
     })
 }
 
@@ -391,6 +392,7 @@ function closePopup(){
     let popupParent = popupPosition.parentElement;
 
     document.getElementById("cats").removeAttribute("class")
+    document.getElementById("container").removeAttribute("class")
 
     popupParent.removeChild(popupPosition)
 }
