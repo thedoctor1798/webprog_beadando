@@ -116,16 +116,14 @@ function displayCat(cat){
         let infoText = document.createTextNode(cat[c])
 
         //This if is for the name label. If the titleText contains an "n" we don't add label to this row, 
-        //but set a class for the <h3> element.
+        //but set the p element style.
         if(titleText.textContent == "n"){ 
-            let h3element = document.createElement("h3")
             let pElement = document.createElement("p")
 
-            h3element.setAttribute("class", "nameTag")
+            pElement.setAttribute("style","font-weight:bold; text-align: center;width:100%")
 
             pElement.appendChild(infoText)
 
-            infoContDiv.appendChild(h3element)
             infoContDiv.appendChild(pElement)
         }
         else{
